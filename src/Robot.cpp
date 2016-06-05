@@ -11,33 +11,21 @@
 
 #include "Robot.h"
 
+std::shared_ptr<Catapult> Robot::catapult;
 std::shared_ptr<Drive> Robot::drive;
-std::shared_ptr<WheelieBar> Robot::wheelieBar;
-std::shared_ptr<Finger> Robot::finger;
-std::shared_ptr<Elevator> Robot::elevator;
 std::shared_ptr<Pneumatics> Robot::pneumatics;
-std::shared_ptr<Arm> Robot::arm;
-std::shared_ptr<Collector> Robot::collector;
 std::unique_ptr<OI> Robot::oi;
-std::shared_ptr<DigitalInput> Robot::lowBarPin;
-std::shared_ptr<DigitalInput> Robot::moatPin;
-std::shared_ptr<DigitalInput> Robot::portcullisPin;
-std::shared_ptr<DigitalInput> Robot::roughTerrainPin;
-std::shared_ptr<DigitalInput> Robot::rampartPin;
-std::shared_ptr<DigitalInput> Robot::rockwallPin;
-std::shared_ptr<DigitalInput> Robot::chevaldefrisePin;
+std::shared_ptr<Shooter> Robot::shooter;
 
 void Robot::RobotInit() {
 	RobotMap::init();
+	printf("Initialized RobotInit");
 
 	// Initialize all of the subsystems on the robot
     drive.reset(new Drive());
-    wheelieBar.reset(new WheelieBar());
-    finger.reset(new Finger());
-    elevator.reset(new Elevator());
     pneumatics.reset(new Pneumatics());
-    arm.reset(new Arm());
-    collector.reset(new Collector());
+    catapult.reset(new Catapult());
+    shooter.reset(new Shooter());
 
 	// This MUST be here. If the OI creates Commands (which it very likely
 	// will), constructing it during the construction of CommandBase (from
@@ -45,17 +33,6 @@ void Robot::RobotInit() {
 	// yet. Thus, their requires() statements may grab null pointers. Bad
 	// news. Don't move it.
 	oi.reset(new OI());
-
-	// Initialize the autonomous inputs
-	lowBarPin.reset(new DigitalInput(AUTO_LOWBAR_PIN));
-	moatPin.reset(new DigitalInput(AUTO_MOAT_PIN));
-	portcullisPin.reset(new DigitalInput(AUTO_PORTC_PIN));
-	roughTerrainPin.reset(new DigitalInput(AUTO_ROUGHT_PIN));
-	rampartPin.reset(new DigitalInput(AUTO_RAMPART_PIN));
-	rockwallPin.reset(new DigitalInput(AUTO_ROCKWALL_PIN));
-	chevaldefrisePin.reset(new DigitalInput(AUTO_CHEVAL_PIN));
-	// Default autonomous is defense creep
-	autoCommand = new DefenseCreep();
   }
 
 /**
@@ -63,58 +40,6 @@ void Robot::RobotInit() {
  * You can use it to reset subsystems before shutting down.
  */
 void Robot::DisabledInit(){
-	printf("State of autonomous pins:\n");
-	printf("LowBarState: %d\n", lowBarPin->Get());
-	printf("MoatState: %d\n", moatPin->Get());
-	printf("PortcullisState: %d\n", portcullisPin->Get());
-	printf("RoughTerrainPin: %d\n", roughTerrainPin->Get());
-
-	if (autoCommand != nullptr)
-	{
-		delete autoCommand;
-	}
-
-	// Pins pull high, invert logic
-	if (!lowBarPin->Get())
-	{
-		printf("Selected Low Bar\n");
-		autoCommand = new LowBar();
-	}
-	else if(!moatPin->Get())
-	{
-		printf("Selected Moat\n");
-		autoCommand = new Moat();
-	}
-	else if(!portcullisPin->Get())
-	{
-		printf("Selected Portcullis\n");
-		autoCommand = new Portcullis();
-	}
-	else if(!roughTerrainPin->Get())
-	{
-		printf("Selected RoughTerrain\n");
-		autoCommand = new RoughTerrian();
-	}
-	else if(!rampartPin->Get())
-	{
-		printf("Selected Ramparts\n");
-		autoCommand = new Ramparts();
-	}
-	else if(!rockwallPin->Get())
-	{
-		printf("Selected Rockwall\n");
-		autoCommand = new Rockwall();
-	}
-	else if (!chevaldefrisePin->Get())
-	{
-		printf("Selected ChevaldeFrise\n");
-		autoCommand = new ChevaldeFrise();
-	}
-	else
-	{
-		printf("Selected DefenseCreep\n");
-		autoCommand = new DefenseCreep();
-	}
 
 	printf("Hi guys, I hope you have a good match out there - SubZero");
 }
@@ -125,7 +50,6 @@ void Robot::DisabledPeriodic() {
 
 void Robot::AutonomousInit() {
 	printf("Autonomous initialized.\n");
-	autoCommand->Start();
 }
 
 void Robot::AutonomousPeriodic() {
@@ -137,7 +61,6 @@ void Robot::TeleopInit() {
 	// teleop starts running. If you want the autonomous to
 	// continue until interrupted by another command, remove
 	// these lines or comment it out.
-	autoCommand->Cancel();
 	Scheduler::GetInstance()->RemoveAll();
 }
 

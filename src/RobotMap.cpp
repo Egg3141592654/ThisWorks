@@ -16,14 +16,12 @@ std::shared_ptr<SpeedController> RobotMap::driveDriveMotorL1;
 std::shared_ptr<SpeedController> RobotMap::driveDriveMotorL2;
 std::shared_ptr<SpeedController> RobotMap::driveDriveMotorR1;
 std::shared_ptr<SpeedController> RobotMap::driveDriveMotorR2;
+std::shared_ptr<SpeedController> RobotMap::driveDriveMotorL3;
+std::shared_ptr<SpeedController> RobotMap::driveDriveMotorR3;
 std::shared_ptr<RobotDrive> RobotMap::driveRobotDrive41;
-std::shared_ptr<DoubleSolenoid> RobotMap::wheelieBarSolenoid;
-std::shared_ptr<DoubleSolenoid> RobotMap::fingerSolenoid;
-std::shared_ptr<DoubleSolenoid> RobotMap::elevatorSolenoid;
+std::shared_ptr<DoubleSolenoid> RobotMap::catapultBidirectional;
+std::shared_ptr<DoubleSolenoid> RobotMap::catapultsingledirection;
 std::shared_ptr<Compressor> RobotMap::compressor;
-std::shared_ptr<SpeedController> RobotMap::armMotor1;
-std::shared_ptr<SpeedController> RobotMap::armMotor2;
-std::shared_ptr<SpeedController> RobotMap::collectorMotor;
 std::shared_ptr<Encoder> RobotMap::encoder;
 
 void RobotMap::init() {
@@ -41,27 +39,17 @@ void RobotMap::init() {
     driveDriveMotorR2.reset(new VictorSP(MOTOR_R2_PORT));
     lw->AddActuator("Drive", "DriveMotorR2", std::static_pointer_cast<VictorSP>(driveDriveMotorR2));
 
-    wheelieBarSolenoid.reset(new DoubleSolenoid(0, WHEELIE_PORT_FORWARD, WHEELIE_PORT_REVERSE));
-    lw->AddActuator("WheelieBar", "SOLENOID_WHEELIEBAR", wheelieBarSolenoid);
+    driveDriveMotorR3.reset(new VictorSP(MOTOR_ARM1_PORT));
+    lw->AddActuator("Drive", "DriveMotorR3", std::static_pointer_cast<VictorSP>(driveDriveMotorR3));
+
+    driveDriveMotorL3.reset(new VictorSP(MOTOR_ARM2_PORT));
+    lw->AddActuator("Drive", "DriveMotorL3", std::static_pointer_cast<VictorSP>(driveDriveMotorL3));
+
+    catapultBidirectional.reset(new DoubleSolenoid(0, CATAPULT_BIDIR_PORT_FORWARD, CATAPULT_BIDIR_PORT_REVERSE));
     
-    fingerSolenoid.reset(new DoubleSolenoid(0, FINGER_PORT_FORWARD, FINGER_PORT_REVERSE));
-    lw->AddActuator("Finger", "SOLENOID_FINGER", fingerSolenoid);
-    
-    elevatorSolenoid.reset(new DoubleSolenoid(0, ELEVATOR_PORT_FORWARD, ELEVATOR_PORT_REVERSE));
-    lw->AddActuator("Elevator", "SOLENOID_ELEVATOR", elevatorSolenoid);
+    catapultsingledirection.reset(new DoubleSolenoid(0, FINGER_PORT_FORWARD, FINGER_PORT_REVERSE));
     
     compressor.reset(new Compressor(0));
-    
-    armMotor1.reset(new VictorSP(MOTOR_ARM1_PORT));
-    armMotor1->SetInverted(true);
-    lw->AddActuator("Arm", "ARM_MOTOR_1", std::static_pointer_cast<VictorSP>(armMotor1));
-    
-    armMotor2.reset(new VictorSP(MOTOR_ARM2_PORT));
-    armMotor2->SetInverted(false);
-    lw->AddActuator("Arm", "ARM_MOTOR_2", std::static_pointer_cast<VictorSP>(armMotor2));
-    
-    collectorMotor.reset(new VictorSP(MOTOR_COLLECTOR_PORT));
-    lw->AddActuator("Collector", "COLLECTOR", std::static_pointer_cast<VictorSP>(collectorMotor));
 
     encoder.reset(new Encoder(ARM_ENCODER_A_PORT, ARM_ENCODER_B_PORT, false, Encoder::k4X));
     lw->AddSensor("Arm", "encoder", encoder);

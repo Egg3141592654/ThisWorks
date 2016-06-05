@@ -12,39 +12,25 @@
 #include "OI.h"
 
 #include "SmartDashboard/SmartDashboard.h"
-#include "Commands/MoveArm.h"
-#include "Commands/MoveCollector.h"
-#include "Commands/MoveElevator.h"
-#include "Commands/MoveFinger.h"
-#include "Commands/MoveWheelieBar.h"
+#include "Commands/ShootCatapult.h"
 #include "Commands/TankDrive.h"
+#include "Commands/WheelShooter.h"
 
 OI::OI() {
     // Process operator interface input here.
-    rightJoystick.reset(new Joystick(2));
-    
-    collectorForward.reset(new JoystickButton(rightJoystick.get(), 1));
-    collectorForward->WhileHeld(new MoveCollector());
+    rightJoystick.reset(new Joystick(0));
     leftJoystick.reset(new Joystick(1));
     
+    collectorForward.reset(new JoystickButton(rightJoystick.get(), 1));
+    collectorForward->WhileHeld(new WheelShooter());
+
     collectorReverse.reset(new JoystickButton(leftJoystick.get(), 1));
-    collectorReverse->WhileHeld(new MoveCollector());
-    operatorJoystick.reset(new Joystick(0));
-    
-    elevatorButton.reset(new JoystickButton(operatorJoystick.get(), 3));
-    elevatorButton->WhenPressed(new MoveElevator());
-    wheelieBarButton.reset(new JoystickButton(operatorJoystick.get(), 2));
-    wheelieBarButton->WhenPressed(new MoveWheelieBar(false, false));
-    fingerButton.reset(new JoystickButton(operatorJoystick.get(), 1));
-    fingerButton->WhenPressed(new MoveFinger());
+    collectorReverse->WhileHeld(new ShootCatapult());
+    operatorJoystick.reset(new Joystick(1));
 
     // SmartDashboard Buttons
     SmartDashboard::PutData("TankDrive", new TankDrive());
-    SmartDashboard::PutData("MoveCollector", new MoveCollector());
-    SmartDashboard::PutData("MoveArm", new MoveArm());
-    SmartDashboard::PutData("MoveElevator: MoveElevator", new MoveElevator());
-    SmartDashboard::PutData("MoveFinger: MoveFinger", new MoveFinger());
-    SmartDashboard::PutData("MoveWheelieBar: MoveWheelieBar", new MoveWheelieBar(false, false));
+    printf("Initialized OI");
 }
 
 std::shared_ptr<Joystick> OI::getOperatorJoystick() {

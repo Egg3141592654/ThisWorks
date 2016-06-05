@@ -23,8 +23,8 @@ const int MOTOR_ARM2_PORT = 9;
 const int MOTOR_COLLECTOR_PORT = 1;
 
 //Solenoid
-const int WHEELIE_PORT_FORWARD = 1;
-const int WHEELIE_PORT_REVERSE = 4;
+const int CATAPULT_BIDIR_PORT_FORWARD = 1;
+const int CATAPULT_BIDIR_PORT_REVERSE = 4;
 const int FINGER_PORT_FORWARD = 0;
 const int FINGER_PORT_REVERSE = 3;
 const int ELEVATOR_PORT_FORWARD = 2;
@@ -65,14 +65,12 @@ public:
 	static std::shared_ptr<SpeedController> driveDriveMotorL2;
 	static std::shared_ptr<SpeedController> driveDriveMotorR1;
 	static std::shared_ptr<SpeedController> driveDriveMotorR2;
+	static std::shared_ptr<SpeedController> driveDriveMotorL3;
+	static std::shared_ptr<SpeedController> driveDriveMotorR3;
 	static std::shared_ptr<RobotDrive> driveRobotDrive41;
-	static std::shared_ptr<DoubleSolenoid> wheelieBarSolenoid;
-	static std::shared_ptr<DoubleSolenoid> fingerSolenoid;
-	static std::shared_ptr<DoubleSolenoid> elevatorSolenoid;
+	static std::shared_ptr<DoubleSolenoid> catapultBidirectional;
+	static std::shared_ptr<DoubleSolenoid> catapultsingledirection;
 	static std::shared_ptr<Compressor> compressor;
-	static std::shared_ptr<SpeedController> armMotor1;
-	static std::shared_ptr<SpeedController> armMotor2;
-	static std::shared_ptr<SpeedController> collectorMotor;
 
 	static std::shared_ptr<Encoder> encoder;
 

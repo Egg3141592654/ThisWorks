@@ -20,27 +20,18 @@ private:
 	// This is the right hand driver joystick. Nobody should access this straight.
 	std::shared_ptr<Joystick> rightJoystick;
 
-	// This is the button which we will use to drive the collector forward.
-	std::shared_ptr<JoystickButton> collectorForward;
-
 	// This is the left hand operator joystick. Nobody should access this straight.
 	std::shared_ptr<Joystick> leftJoystick;
 
 	// This is the button which we will use to drive the collector to intake.
 	std::shared_ptr<JoystickButton> collectorReverse;
 
+	std::shared_ptr<JoystickButton> collectorForward;
+
 	// This is the operator Xbox controller.
 	// Joysticks are denoted the same way, but this is an xbox controller.
 	std::shared_ptr<Joystick> operatorJoystick;
 
-	// This is the button that we are going to use to trigger raising the elevator.
-	std::shared_ptr<JoystickButton> elevatorButton;
-
-	// This is the button that we are going to use to raise and lower the wheelie bar
-	std::shared_ptr<JoystickButton> wheelieBarButton;
-
-	// This is the button that we are going to use to trigger when to use the finger.
-	std::shared_ptr<JoystickButton> fingerButton;
 public:
 	/*
 	 * Initializes a new instance of the OI (operator input) class.

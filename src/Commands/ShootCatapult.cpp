@@ -1,39 +1,45 @@
-#include "HoldBall.h"
+#include "ShootCatapult.h"
 
-HoldBall::HoldBall()
+ShootCatapult::ShootCatapult()
 {
 	// Use Requires() here to declare subsystem dependencies
-	// eg. Requires(chassis);
-	Requires(Robot::collector.get());
+	Requires(Robot::catapult.get());
 }
 
 // Called just before this Command runs the first time
-void HoldBall::Initialize()
+void ShootCatapult::Initialize()
 {
-
 }
 
 // Called repeatedly when this Command is scheduled to run
-void HoldBall::Execute()
+void ShootCatapult::Execute()
 {
-	Robot::collector->Hold();
+	if (Robot::oi->getLeftJoystick()->GetRawButton(1))
+	{
+		printf("Shooting catapult!\n");
+		Robot::catapult->Retract();
+	}
+	else
+	{
+		Robot::catapult->Shoot();
+	}
 }
 
 // Make this return true when this Command no longer needs to run execute()
-bool HoldBall::IsFinished()
+bool ShootCatapult::IsFinished()
 {
-	return IsTimedOut();
+	return false;
 }
 
 // Called once after isFinished returns true
-void HoldBall::End()
+void ShootCatapult::End()
 {
-	Robot::collector->Stop();
+
 }
 
 // Called when another command which requires one or more of the same
 // subsystems is scheduled to run
-void HoldBall::Interrupted()
+void ShootCatapult::Interrupted()
 {
 
 }

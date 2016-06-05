@@ -17,23 +17,22 @@
 #include "RobotMap.h"
 #include "LiveWindow/LiveWindow.h"
 
-#include "Subsystems/Arm.h"
-#include "Subsystems/Collector.h"
+//#include "Subsystems/Arm.h"
+//#include "Subsystems/Collector.h"
+#include "Subsystems/Catapult.h"
 #include "Subsystems/Drive.h"
-#include "Subsystems/Elevator.h"
-#include "Subsystems/Finger.h"
 #include "Subsystems/Pneumatics.h"
-#include "Subsystems/WheelieBar.h"
+#include "Subsystems/Shooter.h"
 
 // Autonomous commands
-#include "Commands/LowBar.h"
-#include "Commands/Moat.h"
-#include "Commands/Portcullis.h"
-#include "Commands/RoughTerrian.h"
-#include "Commands/DefenseCreep.h"
-#include "Commands/Ramparts.h"
-#include "Commands/Rockwall.h"
-#include "Commands/ChevaldeFrise.h"
+//#include "Commands/LowBar.h"
+//#include "Commands/Moat.h"
+//#include "Commands/Portcullis.h"
+//#include "Commands/RoughTerrian.h"
+//#include "Commands/DefenseCreep.h"
+//#include "Commands/Ramparts.h"
+//#include "Commands/Rockwall.h"
+//#include "Commands/ChevaldeFrise.h"
 
 #include "OI.h"
 
@@ -41,13 +40,6 @@ class Robot : public IterativeRobot {
 private:
 	// Initialize the autonomous pins privately. Nothing should be
 	// using these pins, or else things could get nasty...
-	static std::shared_ptr<DigitalInput> lowBarPin;
-	static std::shared_ptr<DigitalInput> moatPin;
-	static std::shared_ptr<DigitalInput> portcullisPin;
-	static std::shared_ptr<DigitalInput> roughTerrainPin;
-	static std::shared_ptr<DigitalInput> rampartPin;
-	static std::shared_ptr<DigitalInput> rockwallPin;
-	static std::shared_ptr<DigitalInput> chevaldefrisePin;
 public:
 	/*
 	 * Gets or sets the live window for smart dash-board stuff
@@ -65,40 +57,19 @@ public:
     static std::shared_ptr<Drive> drive;
 
     /*
-     * Gets or sets the wheelie bar subsystem of the robot.
-     */
-    static std::shared_ptr<WheelieBar> wheelieBar;
-
-    /*
-     * Gets or sets the finger subsystem of the robot
-     */
-    static std::shared_ptr<Finger> finger;
-
-    /*
-     * Gets or sets the elevator subsystem of the robot.
-     */
-    static std::shared_ptr<Elevator> elevator;
-
-    /*
      * Gets or sets the pneumatics subsystem of the robot.
      */
     static std::shared_ptr<Pneumatics> pneumatics;
 
-    /*
-     * Gets or sets the arm subsystem of the robot.
+    /**
+     *TODO WRITE STUFF HERE
      */
-    static std::shared_ptr<Arm> arm;
+    static std::shared_ptr<Catapult> catapult;
 
-    /*
-     * Gets or sets the collector subsystem of the robot
+    /**
+     *TODO WRITE STUFF HERE
      */
-    static std::shared_ptr<Collector> collector;
-
-    /*
-     * This is the raw pointer that will end up being an autonomous
-     * command selected from the pins on the robot.
-     */
-    Command * autoCommand;
+    static std::shared_ptr<Shooter> shooter;
 
     // Required methods by IterativeRobot
     // I am too lazy to document these, go online to see detailed documentation
